@@ -5,18 +5,18 @@ class Task {
     this.index = index;
   }
 }
-
+export {saveList, makeList, checkStorage, addNewTask, editAndSave, removeTask, editTask, statusUpdate}
 let tasks = [];
 const element = document.querySelector('.wrapper');
 const input = document.getElementById('input');
 const complete = document.querySelector('.complete');
 
-export function saveList(task) {
+function saveList(task) {
   localStorage.setItem('myList', JSON.stringify(task));
   window.location.reload();
 }
 
-export function makeList() {
+function makeList() {
   let listItem = '';
   tasks.forEach((task, index) => {
     task.index = index + 1;
@@ -31,14 +31,14 @@ export function makeList() {
   });
 }
 
-export function checkStorage() {
+function checkStorage() {
   if (localStorage.getItem('myList')) {
     tasks = JSON.parse(localStorage.getItem('myList') || '[]');
     makeList();
   }
 }
 
-export function addNewTask() {
+function addNewTask() {
   input.addEventListener('keyup', (e) => {
     if (e.key === 'Enter' && input.value !== '') {
       const newTask = new Task(input.value, false, tasks.length + 1);
@@ -66,12 +66,12 @@ function editAndSave(element) {
   });
 }
 
-export function removeTask(i) {
+function removeTask(i) {
   tasks = tasks.filter((task) => task.index !== i + 1);
   saveList(tasks);
 }
 
-export function editTask() {
+function editTask() {
   document.querySelectorAll('.fas').forEach((element, i) => {
     element.addEventListener('click', (event) => {
       if (element.className === 'fas fa-ellipsis-v') {
@@ -87,14 +87,14 @@ export function editTask() {
   });
 }
 
-export function clearCompleted() {
+function clearCompleted() {
   complete.addEventListener('click', () => {
     tasks = tasks.filter((task) => task.completed !== true);
     saveList(tasks);
   });
 }
 clearCompleted();
-export function statusUpdate() {
+function statusUpdate() {
   document.querySelectorAll('.check-box').forEach((input, index) => {
     input.addEventListener('change', (e) => {
       if (input.checked) {
